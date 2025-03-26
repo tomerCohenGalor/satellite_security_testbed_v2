@@ -5,9 +5,6 @@ import socket
 from utils.utils import receive_msgpack, send_msgpack, getDaemonDetails, bootup_computers
 
 
-
-
-
 def handle_client(conn, addr):
     print(f"New connection from {addr}")
     #prep
@@ -34,7 +31,7 @@ def handle_client(conn, addr):
 }
 
 
-    # Wait for the prep message from the computer
+    # Wait for the prep message from the computer.
     while True:
         response = receive_msgpack(conn)
         if response and isinstance(response, dict) and response.get('stage') == 'prep':
