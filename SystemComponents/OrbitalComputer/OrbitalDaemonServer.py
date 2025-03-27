@@ -18,6 +18,7 @@ def handle_client(connection):
         while True:
             data = receive_msgpack(connection)
             print("me", data)
+            
             if not data:
                 break
                 

@@ -1,6 +1,9 @@
 import struct
 import msgpack
 import yaml
+import configparser
+
+from pathlib import Path
 
 
 def receive_msgpack(comp_socket) -> dict:
@@ -34,4 +37,17 @@ def serialize_yaml(path: str):
 
     return data
 
+def get_value_from_config_ini(sectionIdentifier: str, varIdentifier: str, varType:str='string') -> any:
+    configFilePath = Path(__file__).parent.parent / 'config' / 'dataConv_config.ini'
+    config=configparser.ConfigParser()
+    config.read(configFilePath)
+
+    if varType == 'int':
+        return config.getint(sectionIdentifier, varIdentifier)
+    if varType == 'string':
+        return config.get(sectionIdentifier, varIdentifier)
+    if varType == 'float':
+        return config.getfloat(sectionIdentifier, varIdentifier)
+    if varType == 'boolean':
+        return config.getboolean(sectionIdentifier, varIdentifier)
 

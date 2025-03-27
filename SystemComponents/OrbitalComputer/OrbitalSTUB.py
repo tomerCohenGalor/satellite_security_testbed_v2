@@ -1,15 +1,14 @@
 import configparser
-import time
+import sys
 
 from pathlib import Path
 from utils.convClient import Client
+from utils.utils import(
+    get_value_from_config_ini
+)
 
-configFilePath = Path(__file__).parent / 'config' / 'dataConv_config.ini'
-config=configparser.ConfigParser()
-config.read(configFilePath)
-
-manager_socket_IP='127.0.0.1'
-manager_socket_PORT=config.getint('DATA_CONV_MANAGER', 'com_with_manager_port')
+manager_socket_IP=sys.argv[1]
+manager_socket_PORT=get_value_from_config_ini('DATA_CONV_MANAGER', 'com_with_manager_port', 'int')
 
 
 def manager_connect():
@@ -17,7 +16,8 @@ def manager_connect():
     client.run()
     
     tle_data, time_data, new_range = client.prep()
-   
+    print(tle_data)
+
     i=0
     while True and i < 10:
         data_from_manager = client.execute()
@@ -27,8 +27,6 @@ def manager_connect():
 
 
 if __name__ == "__main__":
-    # Load parameters
-    # Start conversation with the manager
     try: 
         manager_connect()
     except Exception as e:  # Catches any other unexpected errors
