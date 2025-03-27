@@ -74,11 +74,16 @@ def getDaemonServersParameters() -> list[dict[str, any]]:
             'computerName': 'orbital',
             'ip': get_value_from_config_ini('GENERAL', 'dataConv_comp_IP'),
             'port': get_value_from_config_ini('GENERAL', 'daemon_server_PORT_ENV', varType='int')
-        }, 
+        },
+        {
+            'computerName': 'operational',
+            'ip': get_value_from_config_ini('GENERAL', 'operational_comp_IP'),
+            'port': get_value_from_config_ini('GENERAL', 'daemon_server_PORT_OP', varType='int')
+        }
     ]
     
 def getCompPrepMsg(compName):
-    if compName == 'orbital':
+    if True or compName == 'orbital':
         return {
             "stage": "prep",
             "type": "SEND",

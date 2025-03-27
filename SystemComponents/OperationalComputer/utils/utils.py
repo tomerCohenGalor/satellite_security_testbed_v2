@@ -38,7 +38,7 @@ def serialize_yaml(path: str):
     return data
 
 def get_value_from_config_ini(sectionIdentifier: str, varIdentifier: str, varType:str='string') -> any:
-    configFilePath = Path(__file__).parent.parent / 'config' / 'dataConv_config.ini'
+    configFilePath = Path(__file__).parent.parent / 'config' / 'sim_config.ini'
     config=configparser.ConfigParser()
     config.read(configFilePath)
 

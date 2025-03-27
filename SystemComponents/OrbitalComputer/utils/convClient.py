@@ -35,7 +35,6 @@ class Client:
         send_msgpack(self.manager_socket, prep_msg)
 
         request_msg = receive_msgpack(self.manager_socket)
-        # print(request_msg)
         request_msg_data = request_msg.get('data')
 
         return request_msg_data.get('tle'), request_msg_data.get('time'), (request_msg_data.get('min'), request_msg_data.get('max'))

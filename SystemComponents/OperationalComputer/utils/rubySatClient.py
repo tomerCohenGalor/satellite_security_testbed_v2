@@ -37,7 +37,9 @@ class Client:
         request_msg = receive_msgpack(self.manager_socket)
         request_msg_data = request_msg.get('data')
 
-        return request_msg_data.get('tle'), request_msg_data.get('time'), (request_msg_data.get('min'), request_msg_data.get('max'))
+        print(request_msg_data)
+    
+        return request_msg_data.get('tle'), request_msg_data.get('time'), request_msg_data.get('night_probability')
 
     def run(self):
         self.manager_socket.connect(self.manager_addr)
