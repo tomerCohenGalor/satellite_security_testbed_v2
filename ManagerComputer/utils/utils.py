@@ -83,7 +83,7 @@ def getDaemonServersParameters() -> list[dict[str, any]]:
     ]
     
 def getCompPrepMsg(compName):
-    if True or compName == 'orbital':
+    if compName == 'orbital':
         return {
             "stage": "prep",
             "type": "SEND",
@@ -98,6 +98,21 @@ def getCompPrepMsg(compName):
                 "max": 1369.8887229789696
             }
         }
+    if compName == 'operational':
+        return {
+        'stage': 'prep', 
+        'type': 'SEND', 
+        'data': {
+            'time': [2024, 8, 1, 3, 58, 57.0], 
+            'tle': [
+                'ISS (ZARYA)             \r', 
+                '1 25544U 98067A   24214.16593837  .00033120  00000+0  59556-3 0  9996\r', 
+                '2 25544  51.6408  92.4877 0006370 154.8199 343.1632 15.49517145465522'
+            ], 
+            'night_probability': 100
+        }
+        }
+
 
 def prepConnectedComp(conn):
     while True:
