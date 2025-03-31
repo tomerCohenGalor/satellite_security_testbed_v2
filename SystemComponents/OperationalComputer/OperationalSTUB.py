@@ -22,8 +22,6 @@ def manager_connect():
     client.run()
     
     tle_data, time_data, night_probability = client.prep()
-    print("HERE")
-    print(night_probability)
 
     i=0
     while True and i < 20:

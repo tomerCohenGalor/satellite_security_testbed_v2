@@ -79,7 +79,13 @@ def getDaemonServersParameters() -> list[dict[str, any]]:
             'computerName': 'operational',
             'ip': get_value_from_config_ini('GENERAL', 'operational_comp_IP'),
             'port': get_value_from_config_ini('GENERAL', 'daemon_server_PORT_OP', varType='int')
+        },
+        {
+            'computerName': 'cyber',
+            'ip': get_value_from_config_ini('GENERAL', 'cyber_comp_IP'),
+            'port': get_value_from_config_ini('GENERAL', 'daemon_server_PORT_CYBER', varType='int')
         }
+
     ]
     
 def getCompPrepMsg(compName):
@@ -112,6 +118,31 @@ def getCompPrepMsg(compName):
             'night_probability': 100
         }
         }
+    if compName == 'cyber':
+        return {
+            'stage': 'prep', 
+            'type': 'SEND', 
+            'data': {
+                'time': [2024, 7, 31, 20, 17, 55.0], 
+                'tle': [
+                    'CSS (WENTIAN)           \r', 
+                    '1 53239U 22085A   24213.84577643  .00020487  00000+0  25668-3 0  9995\r', 
+                    '2 53239  41.4673 170.6823 0001182 316.0665  44.0079 15.59276255183378'
+                ], 
+                'attacks': [
+                    {
+                        'duration': '10', 
+                        'occurrence': '2,8,16,40,45', 
+                        'name': 'HeaterUp'
+                    }, 
+                    {
+                        'duration': '50', 
+                        'occurrence': '2,77,81', 
+                        'name': 'malUP'
+                    }
+                ]
+            }
+}
 
 
 def prepConnectedComp(conn):
