@@ -1,8 +1,7 @@
-from skyfield.api import EarthSatellite
-from skyfield.positionlib import Barycentric, Geocentric, ICRF
 from geomag import geomag
+from skyfield.api import EarthSatellite, load
+from skyfield.positionlib import ICRF, Barycentric, Geocentric
 from skyfield.toposlib import wgs84
-from skyfield.api import load
 
 
 class ProcessData:

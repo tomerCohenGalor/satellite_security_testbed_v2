@@ -27,6 +27,8 @@ time = {"time": [2024, 7, 31, 20, 17, 55.0]}
 
 min_max = {"min": 1369.7478539121023, "max": 1369.8887229789696}
 
+night_probability = {"night_probability": 100}
+
 
 async def runClient():
     async with connect("ws://localhost:8765") as websocket:
@@ -55,16 +57,14 @@ async def outgoingMsgHandler(websocket):
 
     while True:
         parameter = random.choice(["prep", "start", "getGraph"])
-        msg = {
-            "stage": parameter, 
-            "type": "request",
-            "data": {}
-            }
+        msg = {"stage": parameter, "type": "request", "data": {}}
         if parameter == "start":
             msg["data"].update(tle)
             msg["data"].update(attacks)
             msg["data"].update(time)
             msg["data"].update(min_max)
+            msg["data"].update(night_probability)
+
         await websocket.send(msgpack.packb(msg))
         await asyncio.sleep(2)
 
