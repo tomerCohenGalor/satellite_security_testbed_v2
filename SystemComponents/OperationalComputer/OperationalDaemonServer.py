@@ -6,8 +6,8 @@ import configparser
 from pathlib import Path
 
 # Load configuration file
-configFilePath = Path(__file__).parent / 'config' / 'sim_config.ini'
-config=configparser.ConfigParser()
+configFilePath = Path(__file__).parent / "config" / "sim_config.ini"
+config = configparser.ConfigParser()
 config.read(configFilePath)
 
 
@@ -24,13 +24,14 @@ def handle_client(connection):
     - If no data is received, the connection is closed.
     """
     with connection:
-        print('Connected by', connection.getpeername())
+        print("Connected by", connection.getpeername())
         while True:
             data = receive_msgpack(connection)
             print(data)
             if not data:
                 break
             subprocess.Popen(["python", "OperationalSTUB.py", data[1]], shell=True)
+
 
 def start_daemon():
     """
@@ -43,16 +44,17 @@ def start_daemon():
 
     Configuration:
     - The host and port are retrieved from `sim_config.ini` under the section `DAEMON_SERVER`.
-    """    
-    HOST=config.get('DAEMON_SERVER', 'HOST')
-    PORT=config.getint('DAEMON_SERVER', 'PORT')
-  
+    """
+    HOST = config.get("DAEMON_SERVER", "HOST")
+    PORT = config.getint("DAEMON_SERVER", "PORT")
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
         s.listen()
         while True:
             conn, addr = s.accept()
             threading.Thread(target=handle_client, args=(conn,)).start()
+
 
 if __name__ == "__main__":
     start_daemon()

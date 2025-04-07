@@ -25,7 +25,7 @@ def receive_msgpack(comp_socket) -> dict:
     length_bytes = comp_socket.recv(4)
     if not length_bytes:
         return {}
-    length = struct.unpack('I', length_bytes)[0]
+    length = struct.unpack("I", length_bytes)[0]
 
     packed_data = b""
     while len(packed_data) < length:
@@ -54,7 +54,7 @@ def send_msgpack(comp_socket, msg):
     - Sends the serialized message over the socket.
     """
     packed_data = msgpack.packb(msg, use_bin_type=True)
-    length = struct.pack('I', len(packed_data))
+    length = struct.pack("I", len(packed_data))
     comp_socket.sendall(length + packed_data)
 
 
@@ -73,10 +73,11 @@ def serialize_yaml(path: str):
     - Parses its contents using `yaml.safe_load()`.
     - Returns the data as a dictionary.
     """
-    with open(path, 'r') as yaml_file:
+    with open(path, "r") as yaml_file:
         data = yaml.safe_load(yaml_file)
 
     return data
+
 
 def to_unix_time(time_fmt):
     """
@@ -100,7 +101,9 @@ def to_unix_time(time_fmt):
     return dt.replace(tzinfo=datetime.timezone.utc).timestamp()
 
 
-def get_value_from_config_ini(sectionIdentifier: str, varIdentifier: str, varType:str='string') -> any:
+def get_value_from_config_ini(
+    sectionIdentifier: str, varIdentifier: str, varType: str = "string"
+) -> any:
     """
     Retrieves a configuration value from a `cyber_config.ini` file.
 
@@ -118,15 +121,15 @@ def get_value_from_config_ini(sectionIdentifier: str, varIdentifier: str, varTyp
     - Extracts the requested value and converts it to the specified type.
     - Supports integer, float, boolean, and string values.
     """
-    configFilePath = Path(__file__).parent.parent / 'config' / 'cyber_config.ini'
-    config=configparser.ConfigParser()
+    configFilePath = Path(__file__).parent.parent / "config" / "cyber_config.ini"
+    config = configparser.ConfigParser()
     config.read(configFilePath)
 
-    if varType == 'int':
+    if varType == "int":
         return config.getint(sectionIdentifier, varIdentifier)
-    if varType == 'string':
+    if varType == "string":
         return config.get(sectionIdentifier, varIdentifier)
-    if varType == 'float':
+    if varType == "float":
         return config.getfloat(sectionIdentifier, varIdentifier)
-    if varType == 'boolean':
+    if varType == "boolean":
         return config.getboolean(sectionIdentifier, varIdentifier)

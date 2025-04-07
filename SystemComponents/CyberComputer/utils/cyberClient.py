@@ -1,9 +1,7 @@
 import socket
 
-from utils.utils import(
-    receive_msgpack,
-    send_msgpack
-)
+from utils.utils import receive_msgpack, send_msgpack
+
 
 class Client:
     """
@@ -19,7 +17,7 @@ class Client:
     - prep(): Sends a preparation request and retrieves attack data and the current minute.
     - run(): Establishes a connection with the manager server.
     """
-    
+
     def __init__(self, host, port, computer_name):
         """
         Initializes the Client with a specified manager server address.
@@ -53,9 +51,7 @@ class Client:
         share_msg: dict = {
             "stage": "execution",
             "type": "SHARE",
-            "data": {
-                "options": {}
-            }
+            "data": {"options": {}},
         }
         share_msg["data"]["options"].update(options)
 
@@ -80,14 +76,14 @@ class Client:
         prep_msg: dict = {
             "stage": "prep",
             "type": "REQUEST",
-            "comp": self.computer_name
+            "comp": self.computer_name,
         }
         send_msgpack(self.manager_socket, prep_msg)
 
         request_msg = receive_msgpack(self.manager_socket)
-        request_msg_data = request_msg.get('data')
+        request_msg_data = request_msg.get("data")
 
-        return (request_msg_data.get('attacks'), request_msg_data.get('current_minute'))
+        return (request_msg_data.get("attacks"), request_msg_data.get("current_minute"))
 
     def run(self):
         """
@@ -99,4 +95,3 @@ class Client:
         """
         print(f"connecting to {self.manager_addr}")
         self.manager_socket.connect(self.manager_addr)
-
