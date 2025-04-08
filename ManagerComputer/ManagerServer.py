@@ -24,6 +24,3 @@ if __name__ == "__main__":
 
     while True:
         time.sleep(1)
-
-    # startWsServer(wsCommToSimThread, simThreadToWsComm)
-    # handle_simulation_execution(wsCommToSimThread, simThreadToWsComm)
