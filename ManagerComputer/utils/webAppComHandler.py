@@ -87,29 +87,17 @@ def handleIncomingMessage(message, wsCommToSimThreadQ, simThreadToWsCommQ):
     stage = message["stage"]
 
     if stage == "start":
-        handleStartSim(message, wsCommToSimThreadQ, simThreadToWsCommQ)
+        wsCommToSimThreadQ.put(message)
+    if stage == "pause":
+        wsCommToSimThreadQ.put(message)
+    elif stage == "resume":
+        wsCommToSimThreadQ.put(message)
     elif stage == "stop":
         handleStopSim(message)
     elif stage == "changeGraphs":
         handlePrepMessage(message)
     elif stage == "getGraph":
         handleGetGraphRequest(message)
-
-
-def handleStartSim(message, wsCommToSimThreadQ):
-    """
-    Handles the start of a simulation by forwarding the message to the simulation thread.
-
-    Args:
-        message (dict): The message received from the frontend to start the simulation.
-        wsCommToSimThreadQ (queue.Queue or asyncio.Queue): The queue used to send the message
-                                                           to the simulation thread for processing.
-
-    Notes:
-        - This function assumes that the simulation thread is actively monitoring the queue.
-        - The message is expected to include necessary simulation parameters under its fields.
-    """
-    wsCommToSimThreadQ.put(message)
 
 
 def handleStopSim(message):

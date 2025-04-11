@@ -241,6 +241,10 @@ def handle_simulation_execution(wsCommToSimThreadQ: queue, simThreadToWsCommQ: q
         while simulationRunning:
 
             time.sleep(2)
+            updates = checkMsgFromWs(wsCommToSimThreadQ)
+            simulationRunning = updates.get("action") != "stopSimulation"
+            if not simulationRunning:
+                break
 
             # DOCUMENTATION
             # process_inputs()
@@ -250,9 +254,6 @@ def handle_simulation_execution(wsCommToSimThreadQ: queue, simThreadToWsCommQ: q
 
 
 def waitForStartCommand(wsCommToSimThreadQ: queue):
-    if wsCommToSimThreadQ.empty():
-        return None, None, None
-
     msg = wsCommToSimThreadQ.get()
 
     if not isinstance(msg, dict) or msg.get("stage") != "start":
@@ -263,3 +264,28 @@ def waitForStartCommand(wsCommToSimThreadQ: queue):
     computers = connectToComponents(managerObj)
 
     return simulationRunning, managerObj, computers
+
+
+def checkMsgFromWs(wsCommToSimThreadQ: queue):
+    if wsCommToSimThreadQ.empty():
+        return {}
+
+    msg = wsCommToSimThreadQ.get()
+
+    stage = msg["stage"]
+
+    if stage == "stop":
+        # PLACEHOLDER: Let the components know the sim is done / close the sockets
+        return {"action": "stopSimulation"}
+    if stage == "pause":
+        handlePause(wsCommToSimThreadQ)
+
+
+def handlePause(wsCommToSimThreadQ: queue):
+    # PLACEHOLDER: Let the components know the sim is being paused
+    while True:
+        msg = wsCommToSimThreadQ.get()
+        stage = msg["stage"]
+        if stage == "pause":
+            # PLACEHOLDER: Let the components know the sim is being resumed..
+            break

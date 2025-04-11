@@ -3,10 +3,9 @@ import queue
 import threading
 import time
 
-import msgpack
-from utils.simExecutionUtil import handle_simulation_execution
-from utils.webAppComUtil import startWsServer
-from websockets.asyncio.server import serve
+from utils.simExecutionHandler import handle_simulation_execution
+
+from ManagerComputer.utils.webAppComHandler import startWsServer
 
 if __name__ == "__main__":
     wsCommToSimThread = queue.Queue()
@@ -24,3 +23,4 @@ if __name__ == "__main__":
 
     while True:
         time.sleep(1)
+
